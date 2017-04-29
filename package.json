@@ -1,0 +1,16 @@
+{
+  "name": "@seatbelt/server-express",
+  "version": "0.0.1",
+  "description": "SeatbeltJS express server",
+  "main": "index.ts",
+  "keywords": [
+    "seatbelt",
+    "express",
+    "server"
+  ],
+  "author": "Thomas Meadows",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.2"
+  }
+}
