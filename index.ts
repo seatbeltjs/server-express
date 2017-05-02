@@ -1,4 +1,4 @@
-import { Log } from '../../log';
+import { Log } from '../core/src/log';
 const bodyParser = require('body-parser');
 
 export function DExpress(): any {

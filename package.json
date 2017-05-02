@@ -11,6 +11,15 @@
   "author": "Thomas Meadows",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.15.2"
+    "@types/express": "^4.0.35",
+    "express": "^4.15.2",
+    "body-parser": "^1.17.1"
+  },
+  "devDependencies": {
+    "@types/node": "^7.0.15",
+    "tslint": "^4.5.1",
+    "tslint-eslint-rules": "^3.5.0",
+    "tslint-microsoft-contrib": "^4.0.1",
+    "typescript": "^2.2.1"
   }
 }
