@@ -1,4 +1,3 @@
-import { Log } from '../core/src/log';
 const bodyParser = require('body-parser');
 
 export function DExpress(): any {
@@ -7,18 +6,15 @@ export function DExpress(): any {
     return function () {
       const origin = new OriginalClassConstructor();
       origin.__seatbelt__ = 'server';
-      origin.__seatbelt_strap__ = function(classesByType: any[]) {
+      origin.__seatbelt_strap__ = function(classesByType: any) {
         origin.express = require('express');
         origin.app = origin.express();
         origin.port = process.env.port || 3000;
-        origin.log = new Log('Express');
         origin.app.use(bodyParser.json());
         origin.__controller_wrapper__ = function (controllerFunction: Function, req: any, res: any, next: Function) {
           controllerFunction({
-            req,
-            res,
             next,
-            reply: (...params: any[]) => res.send(...params),
+            send: (...params: any[]) => res.send(...params),
             params: Object.assign(
               {},
               typeof req.params === 'object' ? req.params : {},
@@ -26,6 +22,10 @@ export function DExpress(): any {
               ,
               typeof req.query === 'object' ? req.query : {}
             )
+          }, {
+            req,
+            res,
+            next
           });
         };
 
@@ -53,7 +53,7 @@ export function DExpress(): any {
         }
 
         origin.app.listen(origin.port, () => {
-          origin.log.system(`Example app listening on port ${origin.port}!`);
+          console.log(`Example app listening on port ${origin.port}!`);
         });
 
       };
