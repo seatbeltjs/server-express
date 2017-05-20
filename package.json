@@ -2,7 +2,8 @@
   "name": "@seatbelt/server-express",
   "version": "0.0.1",
   "description": "SeatbeltJS express server",
-  "main": "index.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.ts",
   "keywords": [
     "seatbelt",
     "express",
@@ -16,6 +17,8 @@
     "body-parser": "^1.17.1"
   },
   "devDependencies": {
+    "@types/body-parser": "^1.16.3",
+    "@types/express": "^4.0.35",
     "@types/node": "^7.0.15",
     "tslint": "^4.5.1",
     "tslint-eslint-rules": "^3.5.0",
