@@ -1,14 +1,14 @@
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
+import { DRegisterServer } from '@seatbelt/core';
 
 export function DExpress(): any {
   return function(originalClassConstructor: new () => {}) {
-    return class extends originalClassConstructor {
-      public __seatbelt__: string;
+    @DRegisterServer()
+    class ExpressServer extends originalClassConstructor {
       public __seatbelt_strap__: Function;
       constructor() {
         super();
-        this.__seatbelt__ = 'server';
         this.__seatbelt_strap__ = function(routes: any[]) {
           this.server = express();
           this.port = process.env.port || 3000;
@@ -48,5 +48,6 @@ export function DExpress(): any {
         };
       };
     };
+    return ExpressServer
   };
 }
