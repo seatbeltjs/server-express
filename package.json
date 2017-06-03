@@ -1,6 +1,6 @@
 {
   "name": "@seatbelt/server-express",
-  "version": "0.0.1",
+  "version": "0.0.1-alpha.1",
   "description": "SeatbeltJS express server",
   "main": "lib/index.js",
   "types": "lib/index.ts",
@@ -12,7 +12,7 @@
   "author": "Thomas Meadows",
   "license": "MIT",
   "dependencies": {
-    "@seatbelt/core": "0.0.1",
+    "@seatbelt/core": "^0.0.1-alpha.1",
     "express": "^4.15.2",
     "body-parser": "^1.17.1"
   },
