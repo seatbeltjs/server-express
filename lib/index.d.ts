@@ -1,11 +1,15 @@
 import * as express from 'express';
+import { Server } from '@seatbelt/core/lib/server';
 import { Log } from '@seatbelt/core';
-export declare class ExpressServer {
+export interface IServerConfig {
+    port?: number;
+}
+export declare class ExpressServer implements Server.BaseServer {
     server: express.Express;
     port: number;
     log: Log;
-    conformExpressControllerToSeatbeltController: Function;
-    config: Function;
-    init: Function;
+    constructor(config?: IServerConfig);
+    conformServerControllerToSeatbeltController: Function;
+    config: Server.Config;
+    init: Server.Init;
 }
-export declare const server: ExpressServer;
