@@ -1,17 +1,19 @@
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
-import { Server } from '@seatbelt/core/lib/server';
+import { ServerPlugin } from '@seatbelt/core/plugins';
 import { Log } from '@seatbelt/core';
 
 export interface IServerConfig {
   port?: number;
 }
 
-@Server.Register()
-export class ExpressServer implements Server.BaseServer {
+@ServerPlugin.Register({
+  name: 'ExpressServer'
+})
+export class ExpressServer implements ServerPlugin.BaseServer {
   public server: express.Express = express();
   public port: number = process.env.port || 3000;
-  public log: Log = new Log('ExpressServer');
+  private log: Log = new Log('ExpressServer');
 
   public constructor(config?: IServerConfig) {
     if (config) {
@@ -21,16 +23,16 @@ export class ExpressServer implements Server.BaseServer {
     }
   }
 
-  public conformServerControllerToSeatbeltController: Function = function (route: Server.Route, req: express.Request, res: express.Response) {
+  public conformServerControllerToSeatbeltController: Function = function (route: ServerPlugin.Route, req: express.Request, res: express.Response) {
 
-    const seatbeltResponse: Server.Response = {
+    const seatbeltResponse: ServerPlugin.Response = {
       send: (status: number, body: Object) => {
         res.status(status);
         return res.send(body);
       }
     };
 
-    const seatbeltRequest: Server.Request = {
+    const seatbeltRequest: ServerPlugin.Request = {
       allParams: Object.assign(
         {},
         typeof req.query === 'object' ? req.query : {},
@@ -49,12 +51,14 @@ export class ExpressServer implements Server.BaseServer {
     );
   };
 
-  public config: Server.Config = function(routes: Server.Route[]) {
+  public config: ServerPlugin.Config = function(seatbelt: any) {
+    const routes: ServerPlugin.Route[] = seatbelt.plugins.route;
+
     this.server.use(bodyParser.json());
     if (routes && Array.isArray(routes)) {
-      routes.forEach((route: Server.Route) => {
-        route['__seatbeltConfig'].type.forEach((eachType: string) => {
-          route['__seatbeltConfig'].path.forEach((eachPath: string) => {
+      routes.forEach((route: ServerPlugin.Route) => {
+        route['__routeConfig'].type.forEach((eachType: string) => {
+          route['__routeConfig'].path.forEach((eachPath: string) => {
             this.server[eachType.toLowerCase()](eachPath, (req: express.Request, res: express.Response) => this.conformExpressControllerToSeatbeltController(route, req, res));
           });
         });
@@ -62,7 +66,7 @@ export class ExpressServer implements Server.BaseServer {
     }
   };
 
-  public init: Server.Init = function () {
+  public init: ServerPlugin.Init = function () {
     this.log.system(`starting server on ${this.port}`);
     this.server.listen(this.port, () => {
       this.log.system(`server listening on port ${this.port}!`);

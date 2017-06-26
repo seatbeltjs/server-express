@@ -1,15 +1,14 @@
 import * as express from 'express';
-import { Server } from '@seatbelt/core/lib/server';
-import { Log } from '@seatbelt/core';
+import { ServerPlugin } from '@seatbelt/core/plugins';
 export interface IServerConfig {
     port?: number;
 }
-export declare class ExpressServer implements Server.BaseServer {
+export declare class ExpressServer implements ServerPlugin.BaseServer {
     server: express.Express;
     port: number;
-    log: Log;
+    private log;
     constructor(config?: IServerConfig);
     conformServerControllerToSeatbeltController: Function;
-    config: Server.Config;
-    init: Server.Init;
+    config: ServerPlugin.Config;
+    init: ServerPlugin.Init;
 }
