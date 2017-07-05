@@ -3,7 +3,7 @@ import { ServerPlugin } from '@seatbelt/core/plugins';
 export interface IServerConfig {
     port?: number;
 }
-export declare class ExpressServer implements ServerPlugin.BaseServer {
+export declare class ExpressServer implements ServerPlugin.BaseInterface {
     server: express.Express;
     port: number;
     private log;
